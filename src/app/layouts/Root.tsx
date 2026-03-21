@@ -1,7 +1,6 @@
 import { Outlet, useLocation } from "react-router";
 import { useEffect, useState } from "react";
 import { Navbar } from "../components/Navbar";
-import { Footer } from "../components/Footer";
 import { WelcomeModal } from "../components/WelcomeModal";
 
 export function Root() {
@@ -42,7 +41,6 @@ export function Root() {
       <main style={{ flex: 1 }}>
         <Outlet />
       </main>
-      <Footer />
     </div>
   );
 }

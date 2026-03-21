@@ -3,12 +3,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderToStaticMarkup } from "react-dom/server";
 import { StaticRouter } from "react-router";
-import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import { LOGIN_URL } from "../constants/links";
 import DeveloperPage from "../pages/DeveloperPage";
 import HomePage, { HOME_PAGE_USE_CASES } from "../pages/HomePage";
-import ModelPlazaPage from "../pages/ModelPlazaPage";
 import PricingPage from "../pages/PricingPage";
 import SupportPage from "../pages/SupportPage";
 
@@ -70,10 +68,8 @@ async function renderHomepageApp(projectRoot?: string) {
   const rootDir = projectRoot ?? path.resolve(path.dirname(currentFile), "../../..");
   const useCaseImages = await Promise.all(HOME_PAGE_USE_CASES.map(({ image }) => remoteImageToDataUrl(image)));
   const logoImg = fileToDataUrl(path.join(rootDir, "src", "assets", "opentoken.svg"));
-  const openaiIcon = fileToDataUrl(path.join(rootDir, "src", "assets", "openai-mark.png"));
   const navigationTargets = {
     home: "#home",
-    models: "#models",
     developer: "#developer",
     pricing: "#pricing",
     support: "#support",
@@ -103,21 +99,9 @@ async function renderHomepageApp(projectRoot?: string) {
               includeSectionPreviews={false}
               linkTargets={{
                 developer: "#developer",
-                models: "#models",
-                pricing: "#pricing",
               }}
               assetUrls={{
                 logoImg,
-                openaiIcon,
-                useCaseImages,
-              }}
-            />
-          </ExportSection>
-          <ExportSection id="models">
-            <ModelPlazaPage
-              staticExport
-              assetUrls={{
-                openaiIcon,
                 useCaseImages,
               }}
             />
@@ -132,20 +116,6 @@ async function renderHomepageApp(projectRoot?: string) {
             <SupportPage staticExport />
           </ExportSection>
         </main>
-        <Footer
-          staticExport
-          assetUrls={{ logoImg }}
-          linkTargets={{
-            models: "#models",
-            pricing: "#pricing",
-            login: LOGIN_URL,
-            developer: "#developer",
-            developerQuickstart: "#quickstart",
-            developerExamples: "#examples",
-            support: "#support",
-            supportContact: "#contact",
-          }}
-        />
       </div>
     </StaticRouter>,
   );

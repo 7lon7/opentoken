@@ -11,7 +11,6 @@ export interface NavbarProps {
   };
   linkTargets?: {
     home?: string;
-    models?: string;
     developer?: string;
     pricing?: string;
     support?: string;
@@ -21,7 +20,6 @@ export interface NavbarProps {
 
 const DEFAULT_LINK_TARGETS = {
   home: "/",
-  models: "/models",
   developer: "/developer",
   pricing: "/pricing",
   support: "/support",
@@ -30,8 +28,7 @@ const DEFAULT_LINK_TARGETS = {
 
 const links = [
   { to: "/", label: "首页" },
-  { to: "/models", label: "模型广场" },
-  { to: "/developer", label: "开发者支持" },
+  { to: "/developer", label: "文档" },
   { to: "/pricing", label: "支付方案" },
   { to: "/support", label: "客服支持" },
 ];
@@ -40,8 +37,6 @@ function resolveLinkTarget(to: string, linkTargets: typeof DEFAULT_LINK_TARGETS)
   switch (to) {
     case "/":
       return linkTargets.home;
-    case "/models":
-      return linkTargets.models;
     case "/developer":
       return linkTargets.developer;
     case "/pricing":
