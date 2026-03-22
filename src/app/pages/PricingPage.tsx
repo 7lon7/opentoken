@@ -195,27 +195,6 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* Contact for custom */}
-        <div style={{
-          marginTop: 48, padding: "32px", borderRadius: 18,
-          border: "1px solid #E5E7EB", background: "#F9FAFB",
-          display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20, flexWrap: "wrap",
-        }}>
-          <div>
-            <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: "#111827", marginBottom: 6 }}>需要定制方案？</h3>
-            <p style={{ fontSize: "0.88rem", color: "#6B7280", margin: 0 }}>企业客户可联系我们获取专属报价与技术支持。</p>
-          </div>
-          <a href="mailto:opentoken@kit.xin" style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            padding: "10px 22px", borderRadius: 10,
-            background: "#0D9488", color: "#fff",
-            fontWeight: 600, fontSize: "0.92rem",
-            textDecoration: "none", flexShrink: 0,
-            transition: "background 0.2s ease",
-          }}>
-            联系我们
-          </a>
-        </div>
       </div>
 
       <style>{`

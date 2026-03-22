@@ -6,9 +6,7 @@ import {
   Copy,
   Check,
   BookOpen,
-  ArrowRight,
 } from "lucide-react";
-import { LOGIN_URL } from "../constants/links";
 
 export interface DeveloperPageProps {
   staticExport?: boolean;
@@ -653,51 +651,6 @@ export default function DeveloperPage({
           )}
         </div>
 
-        {/* CTA */}
-        <div
-          style={{
-            marginTop: 64,
-            padding: "40px",
-            borderRadius: 20,
-            background: "linear-gradient(135deg, #F0FDFA, #CCFBF1)",
-            border: "1px solid #CCFBF1",
-            textAlign: "center",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "1.5rem",
-              fontWeight: 800,
-              color: "#111827",
-              marginBottom: 12,
-            }}
-          >
-            准备好开始了吗？
-          </h2>
-          <p
-            style={{ fontSize: "0.95rem", color: "#4B5563", marginBottom: 24 }}
-          >
-            立即注册，获取 API 密钥，开始构建你的 AI 应用。
-          </p>
-          <a
-            href={LOGIN_URL}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "12px 28px",
-              borderRadius: 10,
-              background: "#0D9488",
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: "1rem",
-              textDecoration: "none",
-              boxShadow: "0 4px 16px rgba(13,148,136,0.3)",
-            }}
-          >
-            免费获取 API 密钥 <ArrowRight size={18} />
-          </a>
-        </div>
       </div>
 
       <style>{`

@@ -9,12 +9,10 @@ type HomePageLinks = {
 
 type HomePageAssetUrls = {
   logoImg?: string;
-  useCaseImages?: string[];
 };
 
 export interface HomePageProps {
   staticExport?: boolean;
-  includeSectionPreviews?: boolean;
   linkTargets?: HomePageLinks;
   assetUrls?: HomePageAssetUrls;
 }
@@ -22,33 +20,6 @@ export interface HomePageProps {
 const DEFAULT_LINK_TARGETS: Required<HomePageLinks> = {
   developer: "/developer",
 };
-
-export const HOME_PAGE_USE_CASES = [
-  {
-    icon: "⌨️", title: "Vibe Coding",
-    subtitle: "最🔥的氛围编程",
-    desc: "0基础搭建属于你自己的平台、程序等",
-    image: "https://images.unsplash.com/photo-1733412505442-36cfa59a4240?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2RpbmclMjBwcm9ncmFtbWluZyUyMGRhcmslMjBzY3JlZW58ZW58MXx8fHwxNzczODMzMTk0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-  },
-  {
-    icon: "⚡", title: "调用 Openclaw",
-    subtitle: "最🔥的开源AI助手",
-    desc: "部署在你自己的设备上，通过多平台消息互动，自动化工作流程",
-    image: "https://images.unsplash.com/photo-1768400730810-5c4398d58ae7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdXRlJTIwcm9ib3QlMjBjaGFyYWN0ZXIlMjAzZHxlbnwxfHx8fDE3NzM4MzQzODJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-  },
-  {
-    icon: "✍️", title: "内容创作",
-    subtitle: "你的灵感用之不竭！",
-    desc: "辅助撰写脚本、文章、广告文案、视频分镜等一切",
-    image: "https://images.unsplash.com/photo-1769613758100-a5d12762b1ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xvcmZ1bCUyMGFydCUyMGNyZWF0aXZlJTIwd2FsbCUyMG11cmFsfGVufDF8fHx8MTc3MzgzNDM4M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-  },
-  {
-    icon: "🏢", title: "企业办公",
-    subtitle: "从单调枯燥中解放！",
-    desc: "文档自动摘要、一键翻译、语音转文字生成会议纪要…",
-    image: "https://images.unsplash.com/photo-1622131815452-cc00d8d89f02?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjB3b3Jrc3BhY2UlMjBpbnRlcmlvcnxlbnwxfHx8fDE3NzM3ODM2NTR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-  },
-];
 
 const WHY_ITEMS = [
   {
@@ -97,20 +68,6 @@ const MODEL_SPOTLIGHT_ITEMS = [
   },
 ];
 
-/* ─── Helpers ─── */
-function Tag({ children, color = "#0D9488" }: { children: React.ReactNode; color?: string }) {
-  return (
-    <span style={{
-      display: "inline-flex", alignItems: "center",
-      padding: "4px 10px", borderRadius: 999,
-      background: `${color}14`, color,
-      fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.04em",
-    }}>
-      {children}
-    </span>
-  );
-}
-
 /* ─── HERO ─── */
 function Hero({ staticExport = false, linkTargets, assetUrls }: HomePageProps) {
   const navigate = useNavigate();
@@ -119,10 +76,11 @@ function Hero({ staticExport = false, linkTargets, assetUrls }: HomePageProps) {
 
   return (
     <section style={{
-      padding: "60px 24px 0",
+      padding: "30px 24px 20px",
       background: "linear-gradient(160deg, #E6FAF8 0%, #D5F5F0 30%, #E8FBF8 60%, #F0FDFA 100%)",
       position: "relative",
       overflow: "hidden",
+      minHeight: "100vh",
     }}>
       {/* Soft decorative circles */}
       <div style={{ position: "absolute", top: -120, right: -100, width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(13,148,136,0.08) 0%, transparent 65%)", pointerEvents: "none" }} />
@@ -130,16 +88,53 @@ function Hero({ staticExport = false, linkTargets, assetUrls }: HomePageProps) {
       <div style={{ position: "absolute", top: "40%", left: "50%", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(245,158,11,0.04) 0%, transparent 65%)", pointerEvents: "none" }} />
 
       <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
-        {/* Top bar - logo */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 36, padding: "10px 20px 10px 10px", borderRadius: 999, background: "rgba(255,255,255,0.7)", border: "1px solid rgba(13,148,136,0.15)", backdropFilter: "blur(12px)" }}>
-          <img src={resolvedLogoImg} alt="OpenToken" style={{ height: 40, width: 40, objectFit: "contain" }} />
-          <span style={{ fontWeight: 800, fontSize: "1.1rem", color: "#0D9488", letterSpacing: "-0.01em" }}>opentoken</span>
-          <span style={{ width: 1, height: 18, background: "#D1D5DB", margin: "0 2px" }} />
-          <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#059669", background: "#ECFDF5", padding: "3px 10px", borderRadius: 999 }}>🔥 正式上线</span>
-        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(320px,0.9fr) minmax(0,1.1fr)",
+            gap: 70,
+            alignItems: "center",
+            maxWidth: 1100,
+            margin: "0 auto",
+          }}
+          className="hero-main-grid"
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "24px 18px 34px",
+            }}
+            className="hero-logo-col"
+          >
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 390,
+                borderRadius: 28,
+                padding: 24,
+                background: "rgba(255,255,255,0.72)",
+                border: "1px solid rgba(13,148,136,0.22)",
+                boxShadow: "0 18px 42px rgba(13,148,136,0.12)",
+                backdropFilter: "blur(8px)",
+              }}
+            >
+              <img
+                src={resolvedLogoImg}
+                alt="OpenToken"
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "auto",
+                  maxHeight: 320,
+                  objectFit: "contain",
+                }}
+              />
+            </div>
+          </div>
 
-        <div style={{ maxWidth: 980 }}>
-          <div style={{ paddingBottom: 8 }}>
+          <div style={{ paddingBottom: 8, paddingLeft: 6 }}>
             <h1 style={{
               fontSize: "clamp(2.2rem, 4.5vw, 3.6rem)", fontWeight: 800,
               letterSpacing: "-0.04em", lineHeight: 1.1,
@@ -204,196 +199,106 @@ function Hero({ staticExport = false, linkTargets, assetUrls }: HomePageProps) {
                 </button>
               )}
             </div>
-
-            <div style={{ marginTop: 28 }}>
-              <div style={{ marginBottom: 18 }}>
-                <Tag>为什么选择我们</Tag>
-              </div>
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2,minmax(0,1fr))",
-                gap: 18,
-              }} className="hero-features-grid">
-                {WHY_ITEMS.map(({ icon, title, desc, color }) => (
-                  <div key={title} style={{
-                    padding: "24px 22px",
-                    borderRadius: 18,
-                    border: "1px solid rgba(255,255,255,0.7)",
-                    background: "rgba(255,255,255,0.82)",
-                    backdropFilter: "blur(10px)",
-                    boxShadow: "0 10px 30px rgba(15,23,42,0.06)",
-                    transition: "all 0.2s ease",
-                  }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = `${color}40`;
-                      (e.currentTarget as HTMLElement).style.boxShadow = `0 14px 34px ${color}16`;
-                      (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.7)";
-                      (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(15,23,42,0.06)";
-                      (e.currentTarget as HTMLElement).style.transform = "";
-                    }}
-                  >
-                    <div style={{
-                      width: 46, height: 46, borderRadius: 12, marginBottom: 16,
-                      background: `${color}14`,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      color,
-                    }}>
-                      {icon}
-                    </div>
-                    <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "#111827", marginBottom: 8 }}>{title}</h3>
-                    <p style={{ fontSize: "0.9rem", color: "#6B7280", lineHeight: 1.7 }}>{desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
 
-/* ─── MODEL SPOTLIGHT ─── */
-function ModelSpotlight() {
-  return (
-    <section style={{ padding: "72px 24px 0", background: "#fff" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <Tag>热门模型</Tag>
-          <h2 style={{ fontSize: "clamp(1.7rem, 3vw, 2.3rem)", fontWeight: 800, color: "#111827", marginTop: 16, marginBottom: 12, letterSpacing: "-0.03em" }}>
-            选择适合你的模型能力
-          </h2>
-          <p style={{ fontSize: "1rem", color: "#6B7280", maxWidth: "46ch", margin: "0 auto" }}>
-            不同模型各有优势，按任务类型灵活选用，能更高效地获得理想结果。
-          </p>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: 20 }} className="model-spotlight-grid">
-          {MODEL_SPOTLIGHT_ITEMS.map(({ name, accent, summary, details, tags }) => (
-            <div key={name} style={{
-              padding: "26px 24px",
-              borderRadius: 18,
-              border: "1px solid #E5E7EB",
-              background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%)",
-              boxShadow: "0 10px 30px rgba(15,23,42,0.05)",
-              transition: "all 0.2s ease",
-            }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
-                (e.currentTarget as HTMLElement).style.borderColor = `${accent}40`;
-                (e.currentTarget as HTMLElement).style.boxShadow = `0 16px 36px ${accent}14`;
+        <div style={{ marginTop: 12, paddingBottom: 8 }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4,minmax(0,1fr))",
+            gap: 18,
+          }} className="hero-features-grid">
+            {WHY_ITEMS.map(({ icon, title, desc, color }) => (
+              <div key={title} style={{
+                padding: "24px 22px",
+                borderRadius: 18,
+                border: "1px solid rgba(255,255,255,0.7)",
+                background: "rgba(255,255,255,0.82)",
+                backdropFilter: "blur(10px)",
+                boxShadow: "0 10px 30px rgba(15,23,42,0.06)",
+                transition: "all 0.2s ease",
               }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.transform = "";
-                (e.currentTarget as HTMLElement).style.borderColor = "#E5E7EB";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(15,23,42,0.05)";
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
-                <div style={{ fontSize: "1.2rem", fontWeight: 800, color: "#111827", letterSpacing: "-0.02em" }}>{name}</div>
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.borderColor = `${color}40`;
+                  (e.currentTarget as HTMLElement).style.boxShadow = `0 14px 34px ${color}16`;
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.7)";
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(15,23,42,0.06)";
+                  (e.currentTarget as HTMLElement).style.transform = "";
+                }}
+              >
                 <div style={{
-                  width: 12,
-                  height: 12,
-                  borderRadius: "50%",
-                  background: accent,
-                  boxShadow: `0 0 0 6px ${accent}18`,
-                }} />
-              </div>
-              <p style={{ fontSize: "0.95rem", color: "#374151", lineHeight: 1.75, fontWeight: 600, marginBottom: 12 }}>
-                {summary}
-              </p>
-              <p style={{ fontSize: "0.88rem", color: "#6B7280", lineHeight: 1.7, marginBottom: 18 }}>
-                {details}
-              </p>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {tags.map(tag => (
-                  <span key={tag} style={{
-                    padding: "5px 10px",
-                    borderRadius: 999,
-                    background: `${accent}12`,
-                    color: accent,
-                    fontSize: "0.76rem",
-                    fontWeight: 700,
-                  }}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── USE CASES ─── */
-function UseCases({ assetUrls }: HomePageProps) {
-  return (
-    <section style={{ padding: "80px 24px", background: "#fff" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 52 }}>
-          <Tag>使用场景</Tag>
-          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 800, color: "#111827", marginTop: 16, marginBottom: 12, letterSpacing: "-0.03em" }}>
-            探索无限可能
-          </h2>
-          <p style={{ fontSize: "1rem", color: "#6B7280", maxWidth: "44ch", margin: "0 auto" }}>
-            无论你是开发者、创作者还是企业用户，OpenToken 社区都能找到适合你的场景。
-          </p>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: 20, marginBottom: 32 }} className="cases-grid">
-          {HOME_PAGE_USE_CASES.map(({ icon, title, subtitle, desc, image }, index) => (
-            <div key={title} style={{
-              borderRadius: 18, overflow: "hidden", position: "relative",
-              height: 220, cursor: "pointer",
-              transition: "all 0.3s ease",
-            }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 16px 40px rgba(0,0,0,0.2)"; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
-            >
-              {/* Background image */}
-              <img src={assetUrls?.useCaseImages?.[index] ?? image} alt={title} style={{
-                position: "absolute", inset: 0, width: "100%", height: "100%",
-                objectFit: "cover",
-              }} />
-              {/* Dark overlay for text readability */}
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%)",
-              }} />
-              {/* Content */}
-              <div style={{
-                position: "relative", zIndex: 1, height: "100%",
-                padding: "24px 28px", display: "flex", flexDirection: "column", justifyContent: "space-between",
-              }}>
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                    <span style={{ fontSize: "1.1rem" }}>{icon}</span>
-                    <span style={{
-                      fontSize: "1.15rem", fontWeight: 800, color: "#fff",
-                      textShadow: "0 1px 4px rgba(0,0,0,0.4)",
-                    }}>{title}</span>
-                  </div>
-                  <div style={{
-                    display: "inline-block", padding: "3px 10px", borderRadius: 6,
-                    background: "rgba(245,158,11,0.85)", color: "#fff",
-                    fontSize: "0.78rem", fontWeight: 700, marginBottom: 8,
-                  }}>
-                    {subtitle}
-                  </div>
+                  width: 46, height: 46, borderRadius: 12, marginBottom: 16,
+                  background: `${color}14`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color,
+                }}>
+                  {icon}
                 </div>
-                <p style={{
-                  fontSize: "0.88rem", color: "rgba(255,255,255,0.9)", lineHeight: 1.6,
-                  textShadow: "0 1px 3px rgba(0,0,0,0.5)",
-                  maxWidth: "32ch",
-                }}>{desc}</p>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "#111827", marginBottom: 8 }}>{title}</h3>
+                <p style={{ fontSize: "0.9rem", color: "#6B7280", lineHeight: 1.7 }}>{desc}</p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: 20 }} className="model-spotlight-grid">
+            {MODEL_SPOTLIGHT_ITEMS.map(({ name, accent, summary, details, tags }) => (
+              <div key={name} style={{
+                padding: "26px 24px",
+                borderRadius: 18,
+                border: "1px solid #E5E7EB",
+                background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%)",
+                boxShadow: "0 10px 30px rgba(15,23,42,0.05)",
+                transition: "all 0.2s ease",
+              }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
+                  (e.currentTarget as HTMLElement).style.borderColor = `${accent}40`;
+                  (e.currentTarget as HTMLElement).style.boxShadow = `0 16px 36px ${accent}14`;
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.transform = "";
+                  (e.currentTarget as HTMLElement).style.borderColor = "#E5E7EB";
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(15,23,42,0.05)";
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
+                  <div style={{ fontSize: "1.2rem", fontWeight: 800, color: "#111827", letterSpacing: "-0.02em" }}>{name}</div>
+                  <div style={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: "50%",
+                    background: accent,
+                    boxShadow: `0 0 0 6px ${accent}18`,
+                  }} />
+                </div>
+                <p style={{ fontSize: "0.95rem", color: "#374151", lineHeight: 1.75, fontWeight: 600, marginBottom: 12 }}>
+                  {summary}
+                </p>
+                <p style={{ fontSize: "0.88rem", color: "#6B7280", lineHeight: 1.7, marginBottom: 18 }}>
+                  {details}
+                </p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  {tags.map(tag => (
+                    <span key={tag} style={{
+                      padding: "5px 10px",
+                      borderRadius: 999,
+                      background: `${accent}12`,
+                      color: accent,
+                      fontSize: "0.76rem",
+                      fontWeight: 700,
+                    }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -402,21 +307,19 @@ function UseCases({ assetUrls }: HomePageProps) {
 
 /* ─── PAGE ─── */
 export default function HomePage(props: HomePageProps) {
-  const includeSectionPreviews = props.includeSectionPreviews ?? true;
-
   return (
     <>
       <Hero {...props} />
-      {includeSectionPreviews && <ModelSpotlight />}
-      {includeSectionPreviews && <UseCases {...props} />}
 
       <style>{`
         @media (max-width: 900px) {
+          .hero-main-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+          .hero-logo-col { max-width: 360px; margin: 0 auto; width: 100%; }
           .hero-features-grid { grid-template-columns: repeat(2,1fr) !important; }
           .model-spotlight-grid { grid-template-columns: 1fr !important; }
-          .cases-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 560px) {
+          .hero-logo-col { max-width: 260px; }
           .hero-features-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>

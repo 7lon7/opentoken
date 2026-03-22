@@ -3,56 +3,59 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderToStaticMarkup } from "react-dom/server";
 import { StaticRouter } from "react-router";
-import { Navbar } from "../components/Navbar";
-import { LOGIN_URL } from "../constants/links";
 import DeveloperPage from "../pages/DeveloperPage";
-import HomePage, { HOME_PAGE_USE_CASES } from "../pages/HomePage";
+import HomePage from "../pages/HomePage";
 import PricingPage from "../pages/PricingPage";
 import SupportPage from "../pages/SupportPage";
 
-function inferMimeTypeFromUrl(url: string) {
-  const pathname = new URL(url).pathname.toLowerCase();
+function optimizeSvg(svg: string) {
+  const normalizedSvg = svg
+    .replace(/<\?xml[^>]*>/g, "")
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/>[\s\n\r\t]+</g, "><")
+    .replace(/[\n\r\t]+/g, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 
-  if (pathname.endsWith(".png")) return "image/png";
-  if (pathname.endsWith(".webp")) return "image/webp";
-  if (pathname.endsWith(".svg")) return "image/svg+xml";
-  if (pathname.endsWith(".jpg") || pathname.endsWith(".jpeg")) return "image/jpeg";
+  return normalizedSvg.replace(/-?(?:\d*\.\d+|\d+)/g, value => {
+    const parsedValue = Number(value);
 
-  return "image/jpeg";
+    if (!Number.isFinite(parsedValue) || Number.isInteger(parsedValue)) {
+      return value;
+    }
+
+    const rounded = Math.round(parsedValue * 10) / 10;
+    const normalizedNumber = rounded.toString();
+
+    return normalizedNumber === "-0" ? "0" : normalizedNumber;
+  });
 }
 
-function toDataUrl(content: Buffer, mimeType: string) {
-  return `data:${mimeType};base64,${content.toString("base64")}`;
+function svgToDataUrl(svg: string) {
+  const optimizedSvg = optimizeSvg(svg);
+  const encodedSvg = encodeURIComponent(optimizedSvg)
+    .replace(/%20/g, " ")
+    .replace(/%3D/g, "=")
+    .replace(/%3A/g, ":")
+    .replace(/%2F/g, "/");
+
+  return `data:image/svg+xml,${encodedSvg}`;
 }
 
 function fileToDataUrl(filePath: string) {
   const ext = path.extname(filePath).toLowerCase();
-  const mimeType = ext === ".svg"
-    ? "image/svg+xml"
-    : ext === ".webp"
-      ? "image/webp"
-      : ext === ".jpg" || ext === ".jpeg"
-        ? "image/jpeg"
-        : "image/png";
 
-  return toDataUrl(readFileSync(filePath), mimeType);
-}
-
-async function remoteImageToDataUrl(url: string) {
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-
-    const mimeType = response.headers.get("content-type")?.split(";")[0] ?? inferMimeTypeFromUrl(url);
-    const content = Buffer.from(await response.arrayBuffer());
-
-    return toDataUrl(content, mimeType);
-  } catch {
-    return url;
+  if (ext === ".svg") {
+    return svgToDataUrl(readFileSync(filePath, "utf8"));
   }
+
+  const mimeType = ext === ".webp"
+    ? "image/webp"
+    : ext === ".jpg" || ext === ".jpeg"
+      ? "image/jpeg"
+      : "image/png";
+
+  return `data:${mimeType};base64,${readFileSync(filePath).toString("base64")}`;
 }
 
 function ExportSection({ id, children }: { id: string; children: React.ReactNode }) {
@@ -66,51 +69,37 @@ function ExportSection({ id, children }: { id: string; children: React.ReactNode
 async function renderHomepageApp(projectRoot?: string) {
   const currentFile = fileURLToPath(import.meta.url);
   const rootDir = projectRoot ?? path.resolve(path.dirname(currentFile), "../../..");
-  const useCaseImages = await Promise.all(HOME_PAGE_USE_CASES.map(({ image }) => remoteImageToDataUrl(image)));
   const logoImg = fileToDataUrl(path.join(rootDir, "src", "assets", "opentoken.svg"));
-  const navigationTargets = {
-    home: "#home",
-    developer: "#developer",
-    pricing: "#pricing",
-    support: "#support",
-    login: LOGIN_URL,
-  };
 
   return renderToStaticMarkup(
     <StaticRouter location="/">
-      <div style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        background: "#fff",
-        color: "#111827",
-        fontFamily: '"Plus Jakarta Sans","Noto Sans SC",system-ui,-apple-system,"Microsoft YaHei",sans-serif',
-      }}
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          background: "#fff",
+          color: "#111827",
+          fontFamily: '"Plus Jakarta Sans","Noto Sans SC",system-ui,-apple-system,"Microsoft YaHei",sans-serif',
+        }}
       >
-        <Navbar
-          staticExport
-          assetUrls={{ logoImg }}
-          linkTargets={navigationTargets}
-        />
         <main style={{ flex: 1 }}>
           <ExportSection id="home">
             <HomePage
               staticExport
-              includeSectionPreviews={false}
               linkTargets={{
                 developer: "#developer",
               }}
               assetUrls={{
                 logoImg,
-                useCaseImages,
               }}
             />
           </ExportSection>
-          <ExportSection id="developer">
-            <DeveloperPage staticExport />
-          </ExportSection>
           <ExportSection id="pricing">
             <PricingPage />
+          </ExportSection>
+          <ExportSection id="developer">
+            <DeveloperPage staticExport />
           </ExportSection>
           <ExportSection id="support">
             <SupportPage staticExport />
