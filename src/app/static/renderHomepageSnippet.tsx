@@ -2,7 +2,6 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderToStaticMarkup } from "react-dom/server";
-import { StaticRouter } from "react-router";
 import DeveloperPage from "../pages/DeveloperPage";
 import HomePage from "../pages/HomePage";
 import PricingPage from "../pages/PricingPage";
@@ -72,41 +71,33 @@ async function renderHomepageApp(projectRoot?: string) {
   const logoImg = fileToDataUrl(path.join(rootDir, "src", "assets", "opentoken.svg"));
 
   return renderToStaticMarkup(
-    <StaticRouter location="/">
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          background: "#fff",
-          color: "#111827",
-          fontFamily: '"Plus Jakarta Sans","Noto Sans SC",system-ui,-apple-system,"Microsoft YaHei",sans-serif',
-        }}
-      >
-        <main style={{ flex: 1 }}>
-          <ExportSection id="home">
-            <HomePage
-              staticExport
-              linkTargets={{
-                developer: "#developer",
-              }}
-              assetUrls={{
-                logoImg,
-              }}
-            />
-          </ExportSection>
-          <ExportSection id="pricing">
-            <PricingPage />
-          </ExportSection>
-          <ExportSection id="developer">
-            <DeveloperPage staticExport />
-          </ExportSection>
-          <ExportSection id="support">
-            <SupportPage staticExport />
-          </ExportSection>
-        </main>
-      </div>
-    </StaticRouter>,
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        background: "#fff",
+        color: "#111827",
+        fontFamily: '"Plus Jakarta Sans","Noto Sans SC",system-ui,-apple-system,"Microsoft YaHei",sans-serif',
+      }}
+    >
+      <main style={{ flex: 1 }}>
+        <ExportSection id="home">
+          <HomePage
+            logoImg={logoImg}
+          />
+        </ExportSection>
+        <ExportSection id="pricing">
+          <PricingPage />
+        </ExportSection>
+        <ExportSection id="developer">
+          <DeveloperPage />
+        </ExportSection>
+        <ExportSection id="support">
+          <SupportPage />
+        </ExportSection>
+      </main>
+    </div>,
   );
 }
 

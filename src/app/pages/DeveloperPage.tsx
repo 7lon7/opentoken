@@ -1,16 +1,9 @@
-import { useState } from "react";
 import {
   Terminal,
   Code2,
   Zap,
-  Copy,
-  Check,
   BookOpen,
 } from "lucide-react";
-
-export interface DeveloperPageProps {
-  staticExport?: boolean;
-}
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
@@ -42,6 +35,9 @@ function IC({ children }: { children: React.ReactNode }) {
         fontFamily: "Consolas,'SFMono-Regular',monospace",
         fontSize: "0.87em",
         color: "#374151",
+        maxWidth: "100%",
+        overflowWrap: "anywhere",
+        whiteSpace: "normal",
       }}
     >
       {children}
@@ -52,26 +48,16 @@ function IC({ children }: { children: React.ReactNode }) {
 function CopyableCode({
   code,
   lang = "bash",
-  staticExport = false,
 }: {
   code: string;
   lang?: string;
-  staticExport?: boolean;
 }) {
-  const [copied, setCopied] = useState(false);
-
-  const copy = async () => {
-    await navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
     <div style={{ position: "relative", marginTop: 12 }}>
       <pre
         style={{
           margin: 0,
-          padding: "18px 20px",
+          padding: "clamp(14px, 2.4vw, 18px) clamp(14px, 2.7vw, 20px)",
           borderRadius: 12,
           border: "1px solid #1F2937",
           background: "#111827",
@@ -100,31 +86,6 @@ function CopyableCode({
         <br />
         <code style={{ color: "#E5E7EB" }}>{code}</code>
       </pre>
-      {!staticExport && (
-        <button
-          onClick={copy}
-          style={{
-            position: "absolute",
-            top: 12,
-            right: 12,
-            display: "flex",
-            alignItems: "center",
-            gap: 5,
-            padding: "5px 10px",
-            borderRadius: 7,
-            border: "1px solid #374151",
-            background: copied ? "rgba(13,148,136,0.2)" : "#1F2937",
-            color: copied ? "#34D399" : "#9CA3AF",
-            fontSize: "0.78rem",
-            fontWeight: 600,
-            cursor: "pointer",
-            transition: "all 0.2s ease",
-          }}
-        >
-          {copied ? <Check size={13} /> : <Copy size={13} />}
-          {copied ? "已复制" : "复制"}
-        </button>
-      )}
     </div>
   );
 }
@@ -221,17 +182,14 @@ console.log(response.choices[0].message.content);`,
   },
 ];
 
-export default function DeveloperPage({
-  staticExport = false,
-}: DeveloperPageProps) {
-  const [activeExample, setActiveExample] = useState(0);
+export default function DeveloperPage() {
 
   return (
     <div style={{ background: "#fff" }}>
       {/* Header */}
       <div
         style={{
-          padding: "64px 24px 48px",
+          padding: "clamp(44px, 7vw, 64px) clamp(16px, 4vw, 28px) clamp(30px, 5vw, 48px)",
           background: "linear-gradient(180deg, #F0FDFA 0%, #fff 100%)",
           borderBottom: "1px solid #E5E7EB",
           textAlign: "center",
@@ -260,9 +218,9 @@ export default function DeveloperPage({
         </div>
       </div>
 
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "56px 24px" }}>
+      <div style={{ maxWidth: 1120, margin: "0 auto", padding: "clamp(34px, 6vw, 56px) clamp(16px, 4vw, 28px)" }}>
         {/* API Overview */}
-        <div id="quickstart" style={{ marginBottom: 72 }}>
+        <div id="quickstart" style={{ marginBottom: "clamp(42px, 6vw, 72px)" }}>
           <div
             style={{
               display: "flex",
@@ -302,14 +260,14 @@ export default function DeveloperPage({
             </div>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "clamp(14px, 2.4vw, 24px)" }}>
             {quickstartSteps.map(({ step, title, desc, code, lang }) => (
               <div
                 key={step}
                 style={{
                   display: "flex",
-                  gap: 24,
-                  padding: "28px",
+                  gap: "clamp(14px, 2.6vw, 24px)",
+                  padding: "clamp(18px, 3vw, 28px)",
                   borderRadius: 16,
                   border: "1px solid #E5E7EB",
                   background: "#FAFAFA",
@@ -357,7 +315,6 @@ export default function DeveloperPage({
                   <CopyableCode
                     code={code}
                     lang={lang}
-                    staticExport={staticExport}
                   />
                 </div>
               </div>
@@ -366,7 +323,7 @@ export default function DeveloperPage({
         </div>
 
         {/* API Reference */}
-        <div style={{ marginBottom: 72 }}>
+        <div style={{ marginBottom: "clamp(42px, 6vw, 72px)" }}>
           <div
             style={{
               display: "flex",
@@ -415,13 +372,14 @@ export default function DeveloperPage({
           >
             <div
               style={{
-                padding: "16px 24px",
+                padding: "clamp(12px, 2vw, 16px) clamp(14px, 2.8vw, 24px)",
                 background: "#F9FAFB",
                 borderBottom: "1px solid #E5E7EB",
                 display: "flex",
                 alignItems: "center",
                 gap: 16,
               }}
+              className="api-table-head"
             >
               <span
                 style={{
@@ -478,13 +436,14 @@ export default function DeveloperPage({
               <div
                 key={path}
                 style={{
-                  padding: "16px 24px",
+                  padding: "clamp(12px, 2vw, 16px) clamp(14px, 2.8vw, 24px)",
                   borderBottom: i < 5 ? "1px solid #E5E7EB" : "none",
                   display: "flex",
                   alignItems: "center",
                   gap: 16,
                   background: "#fff",
                 }}
+                className="api-row"
               >
                 <span
                   style={{
@@ -506,6 +465,7 @@ export default function DeveloperPage({
                     color: "#6B7280",
                     marginLeft: "auto",
                   }}
+                  className="api-row-desc"
                 >
                   {desc}
                 </span>
@@ -516,7 +476,7 @@ export default function DeveloperPage({
           <div
             style={{
               marginTop: 16,
-              padding: "14px 18px",
+              padding: "clamp(12px, 2vw, 14px) clamp(14px, 2.4vw, 18px)",
               borderRadius: 12,
               borderLeft: "4px solid #0D9488",
               background: "#F0FDFA",
@@ -578,84 +538,41 @@ export default function DeveloperPage({
             </div>
           </div>
 
-          {staticExport ? (
-            <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-              {examples.map(({ label, icon, code, lang }) => (
-                <div key={label}>
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      marginBottom: 10,
-                      padding: "7px 14px",
-                      borderRadius: 999,
-                      background: "#F3F4F6",
-                      color: "#374151",
-                      fontSize: "0.88rem",
-                      fontWeight: 700,
-                    }}
-                  >
-                    <span>{icon}</span> {label}
-                  </div>
-                  <CopyableCode code={code} lang={lang} staticExport />
+          <div style={{ display: "flex", flexDirection: "column", gap: "clamp(18px, 3vw, 28px)" }}>
+            {examples.map(({ label, icon, code, lang }) => (
+              <div key={label}>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    marginBottom: 10,
+                    padding: "7px 14px",
+                    borderRadius: 999,
+                    background: "#F3F4F6",
+                    color: "#374151",
+                    fontSize: "0.88rem",
+                    fontWeight: 700,
+                  }}
+                >
+                  <span>{icon}</span> {label}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 6,
-                  marginBottom: 20,
-                  background: "#F3F4F6",
-                  padding: "4px",
-                  borderRadius: 10,
-                  width: "fit-content",
-                }}
-              >
-                {examples.map(({ label, icon }, i) => (
-                  <button
-                    key={label}
-                    onClick={() => setActiveExample(i)}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 7,
-                      padding: "8px 16px",
-                      borderRadius: 8,
-                      border: "none",
-                      background: activeExample === i ? "#fff" : "transparent",
-                      color: activeExample === i ? "#111827" : "#6B7280",
-                      fontWeight: activeExample === i ? 700 : 500,
-                      fontSize: "0.88rem",
-                      cursor: "pointer",
-                      boxShadow:
-                        activeExample === i
-                          ? "0 1px 4px rgba(0,0,0,0.08)"
-                          : "none",
-                      transition: "all 0.18s ease",
-                    }}
-                  >
-                    <span>{icon}</span> {label}
-                  </button>
-                ))}
+                <CopyableCode code={code} lang={lang} />
               </div>
-
-              <CopyableCode
-                code={examples[activeExample].code}
-                lang={examples[activeExample].lang}
-              />
-            </>
-          )}
+            ))}
+          </div>
         </div>
 
       </div>
 
       <style>{`
+        @media (max-width: 820px) {
+          .api-table-head { padding: 12px 14px !important; }
+          .api-row { padding: 12px 14px !important; align-items: flex-start !important; gap: 10px !important; flex-wrap: wrap; }
+          .api-row-desc { margin-left: 0 !important; width: 100%; }
+        }
         @media (max-width: 640px) {
-          .qs-step { flex-direction: column !important; }
+          .qs-step { flex-direction: column !important; gap: 14px !important; padding: 18px !important; }
         }
       `}</style>
     </div>

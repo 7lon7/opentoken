@@ -1,10 +1,6 @@
 import { Mail, MessageCircle, ExternalLink } from "lucide-react";
 import { QQ_GROUP_URL } from "../constants/links";
 
-export interface SupportPageProps {
-  staticExport?: boolean;
-}
-
 function Tag({ children }: { children: React.ReactNode }) {
   return (
     <span
@@ -24,14 +20,12 @@ function Tag({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function SupportPage({ staticExport = false }: SupportPageProps) {
-  void staticExport;
-
+export default function SupportPage() {
   return (
     <div style={{ background: "#fff" }}>
       <div
         style={{
-          padding: "64px 24px 30px",
+          padding: "clamp(44px, 7vw, 64px) clamp(16px, 4vw, 28px) clamp(22px, 4vw, 30px)",
           background: "linear-gradient(180deg, #F0FDFA 0%, #fff 100%)",
           textAlign: "center",
         }}
@@ -53,13 +47,13 @@ export default function SupportPage({ staticExport = false }: SupportPageProps) 
         </div>
       </div>
 
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "56px 24px" }}>
+      <div style={{ maxWidth: 1120, margin: "0 auto", padding: "clamp(34px, 6vw, 56px) clamp(16px, 4vw, 28px)" }}>
         <div
           id="contact"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2,minmax(0,1fr))",
-            gap: 16,
+            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+            gap: "clamp(12px, 1.8vw, 16px)",
           }}
           className="contact-cards"
         >
@@ -71,13 +65,14 @@ export default function SupportPage({ staticExport = false }: SupportPageProps) 
               display: "flex",
               gap: 18,
               alignItems: "center",
-              padding: "24px 28px",
+              padding: "clamp(18px, 2.8vw, 24px) clamp(16px, 3vw, 28px)",
               borderRadius: 16,
               border: "1px solid #E5E7EB",
               background: "#fff",
               textDecoration: "none",
               transition: "all 0.2s ease",
             }}
+            className="support-card"
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.borderColor = "#0D9488";
               (e.currentTarget as HTMLElement).style.boxShadow =
@@ -138,13 +133,14 @@ export default function SupportPage({ staticExport = false }: SupportPageProps) 
               display: "flex",
               gap: 18,
               alignItems: "center",
-              padding: "24px 28px",
+              padding: "clamp(18px, 2.8vw, 24px) clamp(16px, 3vw, 28px)",
               borderRadius: 16,
               border: "1px solid #E5E7EB",
               background: "#fff",
               textDecoration: "none",
               transition: "all 0.2s ease",
             }}
+            className="support-card"
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.borderColor = "#0D9488";
               (e.currentTarget as HTMLElement).style.boxShadow =
@@ -199,6 +195,9 @@ export default function SupportPage({ staticExport = false }: SupportPageProps) 
       </div>
 
       <style>{`
+        @media (max-width: 720px) {
+          .support-card { flex-direction: column; align-items: flex-start !important; gap: 14px !important; }
+        }
         @media (max-width: 640px) {
           .contact-cards { grid-template-columns: 1fr !important; }
         }
