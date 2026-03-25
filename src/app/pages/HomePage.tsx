@@ -91,31 +91,19 @@ function Hero({ logoImg: logoImgProp }: HomePageProps) {
             }}
             className="hero-logo-col"
           >
-            <div
+            <img
+              src={resolvedLogoImg}
+              alt="OpenToken"
               style={{
+                display: "block",
                 width: "100%",
-                maxWidth: "clamp(250px, 35vw, 390px)",
-                borderRadius: "clamp(18px, 3vw, 28px)",
-                padding: "clamp(16px, 2.5vw, 24px)",
-                background: "rgba(255,255,255,0.72)",
-                border: "1px solid rgba(13,148,136,0.22)",
-                boxShadow: "0 18px 42px rgba(13,148,136,0.12)",
-                backdropFilter: "blur(8px)",
+                maxWidth: "clamp(125px, 17.5vw, 195px)",
+                height: "auto",
+                maxHeight: "clamp(110px, 15vw, 160px)",
+                objectFit: "contain",
+                transform: "translateY(4px)",
               }}
-            >
-              <img
-                src={resolvedLogoImg}
-                alt="OpenToken"
-                style={{
-                  display: "block",
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "clamp(220px, 30vw, 320px)",
-                  objectFit: "contain",
-                  transform: "translateY(4px)",
-                }}
-              />
-            </div>
+            />
           </div>
 
           <div style={{ paddingBottom: 8, paddingLeft: "clamp(0px, 0.8vw, 6px)" }} className="hero-text-col">
@@ -265,13 +253,13 @@ export default function HomePage(props: HomePageProps) {
       <style>{`
         @media (max-width: 900px) {
           .hero-main-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
-          .hero-logo-col { max-width: 360px; margin: 0 auto; width: 100%; }
+          .hero-logo-col { max-width: 180px; margin: 0 auto; width: 100%; }
           .hero-text-col { padding-left: 0 !important; text-align: center; }
           .hero-text-desc { margin-left: auto; margin-right: auto; }
           .hero-cta-row { justify-content: center; }
         }
         @media (max-width: 560px) {
-          .hero-logo-col { max-width: 260px; }
+          .hero-logo-col { max-width: 130px; }
           .hero-features-grid { grid-template-columns: 1fr !important; }
           .hero-cta-link { width: 100%; justify-content: center; }
         }

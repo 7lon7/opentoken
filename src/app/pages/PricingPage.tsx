@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import { LOGIN_URL } from "../constants/links";
+import { TOPUP_URL } from "../constants/links";
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
@@ -31,8 +31,8 @@ const plans = [
     desc: "适合个人开发者与轻量探索",
     badge: null,
     features: [
-      "基础模型访问（GPT-5.2 等）",
-      "每月 200 万 Token 额度",
+      "基础模型访问（GPT-5.4 等）",
+      "每月 1 亿 Token 额度",
     ],
     highlight: false,
     cta: "敬请期待",
@@ -45,7 +45,7 @@ const plans = [
     badge: null,
     features: [
       "全量模型访问权限",
-      "每月 1000 万 Token 额度",
+      "每月 5 亿 Token 额度",
     ],
     highlight: false,
     cta: "敬请期待",
@@ -58,7 +58,7 @@ const plans = [
     badge: null,
     features: [
       "全量模型最高优先级访问",
-      "每月 5000 万 Token 额度",
+      "每月 20 亿 Token 额度",
     ],
     highlight: false,
     cta: "敬请期待",
@@ -140,7 +140,7 @@ export default function PricingPage() {
               </div>
 
               <a
-                href={isComingSoon ? undefined : LOGIN_URL}
+                href={isComingSoon ? undefined : TOPUP_URL}
                 aria-disabled={isComingSoon}
                 tabIndex={isComingSoon ? -1 : 0}
                 style={{
